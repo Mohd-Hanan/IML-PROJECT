@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
-
+from sklearn.metrics import silhouette_score
 # -------------------------------
 # Page Configuration
 # -------------------------------
@@ -73,62 +73,41 @@ footer {
 </style>
 """, unsafe_allow_html=True)
 
-# HEADER WITH COLLEGE LOGO AND TITLE
 # -----------------------------------
-col1, col2 = st.columns([1, 5])
-with col1:
-    st.image("college_logo.png", width=110)  # 🔸 optional logo
-with col2:
-    st.markdown("""
-        <style>
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(-10px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
+# HEADER WITH PROJECT TITLE 
+# -----------------------------------
+st.markdown("""
+    <style>
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(-10px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
 
-        .main-title {
-            font-size: 56px;
-            font-weight: 800;
-            text-align: center;
-            color: #66FCF1;
-            text-shadow: 0 0 15px #45A29E, 0 0 35px #66FCF1, 0 0 55px #66FCF1;
-            letter-spacing: 1px;
-            animation: fadeIn 1.5s ease-in-out;
-        }
+    .main-title {
+        font-size: 56px;
+        font-weight: 800;
+        text-align: center;
+        color: #66FCF1;
+        text-shadow: 0 0 15px #45A29E, 0 0 35px #66FCF1, 0 0 55px #66FCF1;
+        letter-spacing: 1px;
+        animation: fadeIn 1.5s ease-in-out;
+    }
 
-        .subtitle {
-            font-size: 22px;
-            color: #45A29E;
-            text-align: center;
-            margin-top: -10px;
-            animation: fadeIn 2s ease-in-out;
-        }
+    .subtitle {
+        font-size: 22px;
+        color: #45A29E;
+        text-align: center;
+        margin-top: -10px;
+        animation: fadeIn 2s ease-in-out;
+    }
+    </style>
 
-        .team {
-            text-align: center;
-            color: #C5C6C7;
-            margin-top: 20px;
-            font-size: 16px;
-            animation: fadeIn 2.5s ease-in-out;
-        }
+    <div style="text-align:center; margin-bottom:30px;">
+        <h1 class="main-title">Customer Segmentation</h1>
+        <h3 class="subtitle">using K-Means Clustering</h3>
+    </div>
+""", unsafe_allow_html=True)
 
-        .team span {
-            display: inline-block;
-            background: #1F2833;
-            color: #66FCF1;
-            padding: 6px 12px;
-            border-radius: 12px;
-            margin: 4px;
-            font-weight: 600;
-            box-shadow: 0 0 8px #45A29E;
-        }
-        </style>
-
-        <div style="text-align:center; margin-bottom:30px;">
-            <h1 class="main-title">Customer Segmentation</h1>
-            <h3 class="subtitle">using K-Means Clustering</h3>
-        </div>
-    """, unsafe_allow_html=True)
     # --- Neon Sidebar Styling ---
 st.markdown("""
 <style>
@@ -229,13 +208,15 @@ k_value = st.sidebar.slider("🔢 Select number of clusters (k)", 2, 6, 5)
 # Apply K-Means dynamically
 kmeans = KMeans(n_clusters=k_value, random_state=42, n_init=10)
 clusters = kmeans.fit_predict(X_scaled)
+# -------------------------------
+# Clustering Evaluation Metrics
+# -------------------------------
+silhouette_avg = silhouette_score(X_scaled, clusters)
+
+
 df["Cluster"] = clusters
 
 # Update PCA visualization
-pca = PCA(n_components=2, random_state=42)
-X_pca = pca.fit_transform(X_scaled)
-
-
 pca = PCA(n_components=2, random_state=42)
 X_pca = pca.fit_transform(X_scaled)
 
@@ -316,6 +297,9 @@ elif menu == "📂 Dataset":
 # -------------------------------
 # Clustering Results Page
 # -------------------------------
+# -------------------------------
+# Clustering Results Page
+# -------------------------------
 elif menu == "📊 Clustering Results":
     st.title("📊 Clustering Results & Insights")
 
@@ -340,6 +324,10 @@ elif menu == "📊 Clustering Results":
         ax1.grid(alpha=0.3)
         st.pyplot(fig1, use_container_width=False)
 
+        # ✅ Silhouette Score moved BELOW the graph
+        st.markdown("### 📊 Clustering Performance Metric")
+        st.metric("Silhouette Score", f"{silhouette_avg:.3f}", help="Higher is better (max = 1.0)")
+
     with col2:
         st.subheader("🎨 Cluster Visualization (2D PCA)")
         fig2, ax2 = plt.subplots(figsize=(3.8, 2.8), dpi=100)
@@ -350,6 +338,7 @@ elif menu == "📊 Clustering Results":
         ax2.grid(alpha=0.3)
         plt.colorbar(scatter, ax=ax2, fraction=0.046, pad=0.04)
         st.pyplot(fig2, use_container_width=False)
+
 
     # Cluster Summary and Persona Section
     st.subheader("🧩 Cluster Summary with Personas")
