@@ -127,11 +127,6 @@ with col2:
         <div style="text-align:center; margin-bottom:30px;">
             <h1 class="main-title">Customer Segmentation</h1>
             <h3 class="subtitle">using K-Means Clustering</h3>
-            <div class="team">
-                IML Project by 
-                <span>Hanan</span><span>Dilber</span><span>Dana</span>
-                <span>Abhayanth</span><span>Arya</span>
-            </div>
         </div>
     """, unsafe_allow_html=True)
     # --- Neon Sidebar Styling ---
@@ -200,15 +195,12 @@ section[data-testid="stSidebar"] caption {
 # -------------------------------
 # Sidebar Navigation
 # -------------------------------
-st.sidebar.markdown("<h3 style='color:#66FCF1;text-shadow:0 0 8px #45A29E;'>📍 Navigation</h3>", unsafe_allow_html=True)
+st.sidebar.markdown("<h3 style='color:#66FCF1;'>📍 Navigation</h3>", unsafe_allow_html=True)
 menu = st.sidebar.radio("", ["🏠 Home", "📂 Dataset", "📊 Clustering Results", "🧮 Predict New Customer"])
 
 
 # -------------------------------
 # Data Preprocessing
-# -------------------------------
-# -------------------------------
-# Dataset Upload or Default
 # -------------------------------
 st.sidebar.markdown("<hr>", unsafe_allow_html=True)
 st.sidebar.subheader("📂 Add or Use Dataset")
@@ -439,12 +431,7 @@ st.markdown("""
     font-size: 15px;
     border-top: 1px solid #45A29E;
     margin-top: 50px;
-    text-shadow: 0 0 6px #45A29E, 0 0 12px #66FCF1;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-@keyframes glow {
-    from { text-shadow: 0 0 5px #45A29E, 0 0 10px #66FCF1; }
-    to { text-shadow: 0 0 15px #66FCF1, 0 0 25px #45A29E; }
+    animation: ease-in-out infinite alternate;
 }
 </style>
 
@@ -452,6 +439,6 @@ st.markdown("""
     Developed by <b style='color:#66FCF1;'>Hanan</b>, <b style='color:#66FCF1;'>Dilber</b>, 
     <b style='color:#66FCF1;'>Dana</b>, <b style='color:#66FCF1;'>Abhayanth</b>, 
     and <b style='color:#66FCF1;'>Arya</b><br>
-    <span style='font-size:14px;color:#45A29E;'>IML Project • 2025</span>
+    <span style='font-size:14px;color:#45A29E;'>IML Project </span>
 </div>
 """, unsafe_allow_html=True)
