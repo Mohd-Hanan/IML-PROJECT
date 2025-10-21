@@ -297,9 +297,6 @@ elif menu == "📂 Dataset":
 # -------------------------------
 # Clustering Results Page
 # -------------------------------
-# -------------------------------
-# Clustering Results Page
-# -------------------------------
 elif menu == "📊 Clustering Results":
     st.title("📊 Clustering Results & Insights")
 
@@ -344,6 +341,25 @@ elif menu == "📊 Clustering Results":
     st.subheader("🧩 Cluster Summary with Personas")
     cluster_summary = df.groupby(["Cluster", "Persona"])[["Age", "Annual Income (k$)", "Spending Score (1-100)"]].mean()
     st.dataframe(cluster_summary)
+    # 📥 Download Clustered Dataset
+    # -------------------------------
+    st.markdown("### 💾 Download Clustered Dataset")
+    st.caption("Download the dataset grouped by clusters and personas to create targeted offers.")
+
+    # Sort dataset by cluster for better readability
+    df_sorted = df.sort_values(by="Cluster")
+
+    # Convert to CSV in memory
+    csv_data = df_sorted.to_csv(index=False).encode('utf-8')
+
+    # Streamlit download button
+    st.download_button(
+        label="📥 Download Clustered Data (CSV)",
+        data=csv_data,
+        file_name=f"clustered_customers_k{k_value}.csv",
+        mime="text/csv",
+        help="Download the full dataset with assigned cluster and persona names."
+    )
 
     st.markdown("### 👥 Persona Insights")
 
@@ -431,3 +447,4 @@ st.markdown("""
     <span style='font-size:14px;color:#45A29E;'>IML Project </span>
 </div>
 """, unsafe_allow_html=True)
+
