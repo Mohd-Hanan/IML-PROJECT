@@ -350,7 +350,7 @@ elif menu == "📊 Clustering Results":
     df_sorted = df.sort_values(by="Cluster")
 
     # Convert to CSV in memory
-    csv_data = df_sorted.to_csv(index=False).encode('utf-8')
+    csv_data = df_sorted.to_csv(index=False).encode('utf-8-sig')
 
     # Streamlit download button
     st.download_button(
@@ -447,4 +447,5 @@ st.markdown("""
     <span style='font-size:14px;color:#45A29E;'>IML Project </span>
 </div>
 """, unsafe_allow_html=True)
+
 
